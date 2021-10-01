@@ -131,7 +131,7 @@ def web_traffic(url):
             BeautifulSoup(urllib.request.urlopen("http://data.alexa.com/data?cli=10&dat=s&url=" + url).read(),
                           "xml").find("REACH")['RANK']
         rank = int(rank)
-    except TypeError:
+    except:
         return 1
     if rank < 100000:
         return 1
@@ -230,31 +230,43 @@ def forwarding(response):
 
 # Function to extract features
 def featureExtraction(url, label):
-    features = [getDomain(url), havingIP(url), haveAtSign(url), getLength(url), getDepth(url), redirection(url), httpDomain(url),
+    print(url)
+    features = [getDomain(url), havingIP(url), haveAtSign(url), getLength(url), getDepth(url), redirection(url),
+                httpDomain(url),
                 tinyURL(url), prefixSuffix(url)]
     # Address bar based features (10)
 
     # Domain based features (4)
     dns = 0
     try:
+        print("urlparse")
         domain_name = whois.whois(urlparse(url).netloc)
     except:
         dns = 1
-
+    print("dns")
     features.append(dns)
+    print("web_traffic")
     features.append(web_traffic(url))
+    print("domainAge")
     features.append(1 if dns == 1 else domainAge(domain_name))
+    print("domainEnd")
     features.append(1 if dns == 1 else domainEnd(domain_name))
 
     # HTML & Javascript based features (4)
     try:
-        response = requests.get(url)
+        print("request")
+        response = requests.get(url, timeout=10)
     except:
         response = ""
+    print("iframe")
     features.append(iframe(response))
+    print("mouseOver")
     features.append(mouseOver(response))
+    print("rightClick")
     features.append(rightClick(response))
+    print("forwarding")
     features.append(forwarding(response))
+    print("label")
     features.append(label)
 
     return features
@@ -277,14 +289,32 @@ if __name__ == '__main__':
     legiurl = legiurl.reset_index(drop=True)
     # print(phishurl.shape)
 
+    # ------------------------------------------------
+
     # Extracting the feautres & storing them in a list
-    legi_features = []
-    label = 0
+    # legi_features = []
+    # label = 0
+    #
+    # for i in range(0, 16):
+    #     print("legiurl", i)
+    #     url = legiurl['URLs'][i]
+    #     legi_features.append(featureExtraction(url, label))
+    #
+    # print("legiurl", 16)
+    # url = legiurl['URLs'][16]
+    # legi_features.append(featureExtraction(url, label))
+    #
+    # legitimate = pd.DataFrame(legi_features, columns=feature_names)
+    # legitimate.to_csv('data\\legitimate.csv', index=False)
 
-    for i in range(0, 5):
-        print("legiurl", i)
-        url = legiurl['URLs'][i]
-        legi_features.append(featureExtraction(url, label))
+    # -------------------------------------------------
+    # Extracting the feautres & storing them in a list
+    phish_features = []
+    label = 1
+    for i in range(0, 5000):
+        print("phisher", i)
+        url = phishurl['url'][i]
+        phish_features.append(featureExtraction(url, label))
 
-    legitimate = pd.DataFrame(legi_features, columns=feature_names)
-    legitimate.to_csv('data\\legitimate.csv', index=False)
+    phishing = pd.DataFrame(phish_features, columns=feature_names)
+    phishing.to_csv('data\\phishing.csv', index=False)
