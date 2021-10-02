@@ -292,29 +292,29 @@ if __name__ == '__main__':
     # ------------------------------------------------
 
     # Extracting the feautres & storing them in a list
-    # legi_features = []
-    # label = 0
-    #
-    # for i in range(0, 16):
-    #     print("legiurl", i)
-    #     url = legiurl['URLs'][i]
-    #     legi_features.append(featureExtraction(url, label))
-    #
-    # print("legiurl", 16)
-    # url = legiurl['URLs'][16]
-    # legi_features.append(featureExtraction(url, label))
-    #
-    # legitimate = pd.DataFrame(legi_features, columns=feature_names)
-    # legitimate.to_csv('data\\legitimate.csv', index=False)
+
+    legi_features = []
+    label = 0
+
+    for i in range(0, 5000):
+        print("legiurl", i)
+        url = legiurl['URLs'][i]
+        legi_features.append(featureExtraction(url, label))
+
+    legitimate = pd.DataFrame(legi_features, columns=feature_names)
+    legitimate.to_csv('data\\legitimate.csv', index=False)
 
     # -------------------------------------------------
-    # Extracting the feautres & storing them in a list
-    phish_features = []
-    label = 1
-    for i in range(0, 5000):
-        print("phisher", i)
-        url = phishurl['url'][i]
-        phish_features.append(featureExtraction(url, label))
+    #done
 
-    phishing = pd.DataFrame(phish_features, columns=feature_names)
-    phishing.to_csv('data\\phishing.csv', index=False)
+    # Extracting the feautres & storing them in a list
+
+    # phish_features = []
+    # label = 1
+    # for i in range(0, 5000):
+    #     print("phisher", i)
+    #     url = phishurl['url'][i]
+    #     phish_features.append(featureExtraction(url, label))
+    #
+    # phishing = pd.DataFrame(phish_features, columns=feature_names)
+    # phishing.to_csv('data\\phishing.csv', index=False)
