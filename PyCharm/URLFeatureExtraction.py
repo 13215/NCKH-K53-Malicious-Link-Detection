@@ -293,19 +293,19 @@ if __name__ == '__main__':
 
     # Extracting the feautres & storing them in a list
 
-    legi_features = []
-    label = 0
-
-    for i in range(0, 5000):
-        print("legiurl", i)
-        url = legiurl['URLs'][i]
-        legi_features.append(featureExtraction(url, label))
-
-    legitimate = pd.DataFrame(legi_features, columns=feature_names)
-    legitimate.to_csv('data\\legitimate.csv', index=False)
+    # legi_features = []
+    # label = 0
+    #
+    # for i in range(0, 5000):
+    #     print("legiurl", i)
+    #     url = legiurl['URLs'][i]
+    #     legi_features.append(featureExtraction(url, label))
+    #
+    # legitimate = pd.DataFrame(legi_features, columns=feature_names)
+    # legitimate.to_csv('data\\legitimate.csv', index=False)
 
     # -------------------------------------------------
-    #done
+    # done
 
     # Extracting the feautres & storing them in a list
 
@@ -318,3 +318,5 @@ if __name__ == '__main__':
     #
     # phishing = pd.DataFrame(phish_features, columns=feature_names)
     # phishing.to_csv('data\\phishing.csv', index=False)
+
+
